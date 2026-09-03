@@ -137,29 +137,23 @@ async function main() {
         }
     }
 
-    let challenge_js_script = document.createElement("script");
-    challenge_js_script.innerHTML = challenge_js.value.replaceAll('SOLVER_URL', chrome.runtime.getURL("solver.html"));
-    document.head.appendChild(challenge_js_script);
-
-    let interception_js_script = document.createElement("script");
-    interception_js_script.innerHTML = interception_js.value;
-    document.head.appendChild(interception_js_script);
+function injectScriptBlob(content) {
+        let blob = new Blob([content], { type: 'text/javascript' });
+        let script = document.createElement('script');
+        script.src = URL.createObjectURL(blob);
+        script.async = false;
+        document.head.appendChild(script);
+    }
 
     let bundle_css_style = document.createElement("style");
-    bundle_css_style.innerHTML = bundle_css.value;
+    bundle_css_style.textContent = bundle_css.value;
     document.head.appendChild(bundle_css_style);
 
-    let vendor_js_script = document.createElement("script");
-    vendor_js_script.innerHTML = vendor_js.value;
-    document.head.appendChild(vendor_js_script);
-
-    let bundle_js_script = document.createElement("script");
-    bundle_js_script.innerHTML = bundle_js.value;
-    document.head.appendChild(bundle_js_script);
-
-    let twitter_text_script = document.createElement("script");
-    twitter_text_script.innerHTML = twitter_text.value;
-    document.head.appendChild(twitter_text_script);
+    injectScriptBlob(challenge_js.value.replaceAll('SOLVER_URL', chrome.runtime.getURL("solver.html")));
+    injectScriptBlob(interception_js.value);
+    injectScriptBlob(vendor_js.value);
+    injectScriptBlob(bundle_js.value);
+    injectScriptBlob(twitter_text.value);
 
     (async () => {
         try {
