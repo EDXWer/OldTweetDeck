@@ -56,5 +56,14 @@
             "run_at": "document_start",
             "world": "MAIN"
         }
+        {
+            "matches": [
+            "https://tweetdeck.twitter.com/*",
+            "https://tweetdeck.x.com/*",
+            "https://twitter.com/i/tweetdeck*",
+            "https://x.com/i/tweetdeck*"],
+            "js": ["src/fix_xml_error.js"],
+            "run_at": "document_start"
+        }
     ]
 }
