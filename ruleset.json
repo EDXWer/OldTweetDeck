@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "priority": 10,
+        "priority": 1,
         "action": {
             "type": "modifyHeaders",
             "responseHeaders": [
@@ -11,25 +11,41 @@
             ]
         },
         "condition": {
-            "regexFilter": "^https://(twitter|x)\\.com/i/tweetdeck.*",
+            "urlFilter": "||x.com/i/tweetdeck",
             "resourceTypes": ["main_frame", "sub_frame"]
         }
     },
     {
         "id": 2,
-        "priority": 5,
+        "priority": 1,
+        "action": {
+            "type": "modifyHeaders",
+            "responseHeaders": [
+                { "header": "content-security-policy", "operation": "remove" },
+                { "header": "content-security-policy-report-only", "operation": "remove" },
+                { "header": "x-frame-options", "operation": "remove" }
+            ]
+        },
+        "condition": {
+            "urlFilter": "||twitter.com/i/tweetdeck",
+            "resourceTypes": ["main_frame", "sub_frame"]
+        }
+    },
+    {
+        "id": 3,
+        "priority": 2,
         "action": {
             "type": "redirect",
             "redirect": { "url": "https://x.com/i/tweetdeck" }
         },
         "condition": {
-            "regexFilter": "^https://tweetdeck\\.(twitter|x)\\.com/.*",
+            "urlFilter": "||tweetdeck.twitter.com",
             "resourceTypes": ["main_frame"]
         }
     },
     {
-        "id": 3,
-        "priority": 5,
+        "id": 4,
+        "priority": 2,
         "action": {
             "type": "redirect",
             "redirect": { "url": "https://x.com/i/tweetdeck" }
