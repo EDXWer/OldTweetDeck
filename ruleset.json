@@ -64,5 +64,17 @@
             "urlFilter": "||tweetdeck.twitter.com",
             "resourceTypes": ["main_frame"]
         }
+    },
+    {
+        "id": 6,
+        "priority": 3,
+        "action": {
+            "type": "block"
+        },
+        "condition": {
+            "regexFilter": "^https://abs\\.twimg\\.com/responsive-web/client-web(-legacy)?/(?!ondemand\\.s|vendor).+\\.js",
+            "initiatorDomains": ["x.com", "twitter.com"],
+            "resourceTypes": ["script"]
+        }
     }
 ]
