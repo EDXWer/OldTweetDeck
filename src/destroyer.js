@@ -1,3 +1,15 @@
+// Step 0: Kill Twitter/X Service Workers immediately
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(registrations => {
+        for (let registration of registrations) {
+            registration.unregister();
+            console.log('[OldTweetDeck] Unregistered rogue Twitter service worker');
+        }
+    });
+    // Verhindern, dass Twitter neue registriert
+    navigator.serviceWorker.register = () => new Promise(() => {});
+}
+
 // Step 1: fool twitter into thinking scripts loaded
 window.__SCRIPTS_LOADED__ = Object.freeze({
     main: true,
