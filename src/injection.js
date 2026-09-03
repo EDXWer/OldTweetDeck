@@ -9,16 +9,21 @@ window.chrome.runtime.getURL = url => {
     if(!url.startsWith('/')) url = `/${url}`;
     return `${isFirefox ? 'moz-extension://' : 'chrome-extension://'}${extId}${url}`;   
 }
-window.addEventListener('message', e => {
+let initStarted = false;
+
+window.addEventListener('message', async e => {
     if(e.data.extensionId) {
-        console.log("got extensionId", e.data.extensionId);
         extId = e.data.extensionId;
-        main();
     } else if(e.data.cookie) {
         cookie = e.data.cookie;
     } else if(e.data.token) {
-        console.log("got otdtoken");
         otdtoken = e.data.token;
+    }
+
+    // Erst starten, wenn wir sowohl Extension-ID als auch den Auth-Status kennen
+    if (extId && !initStarted) {
+        initStarted = true;
+        await main();
     }
 });
 window.postMessage('extensionId', '*');
